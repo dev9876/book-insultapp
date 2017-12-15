@@ -23,7 +23,7 @@ public final class ServiceLocator {
 
     @SuppressWarnings("unchecked")
     private <T> T singleton(final Class<T> key, final Function<Class<T>, T> provider) {
-        return (T) beans.computeIfAbsent(key, (Function<? super Class<?>, T>) provider);
+        return (T) beans.computeIfAbsent(key, (Function<? super Class<?>, ?>) provider);
     }
 
     public InsultGenerator insultGenerator() {
