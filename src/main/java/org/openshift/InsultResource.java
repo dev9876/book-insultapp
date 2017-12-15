@@ -1,10 +1,11 @@
 package org.openshift;
 
+import com.google.common.collect.ImmutableMap;
+
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.util.HashMap;
 import java.util.Map;
 
 @RequestScoped
@@ -20,9 +21,7 @@ public class InsultResource {
     @GET()
     @Produces("application/json")
     public Map<String, String> getInsult() {
-        final Map<String, String> theInsult = new HashMap<>();
-        theInsult.put("insult", insultGenerator.generateInsult());
-        return theInsult;
+        return ImmutableMap.of("insult", insultGenerator.generateInsult());
     }
 
 }

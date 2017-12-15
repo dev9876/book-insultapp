@@ -1,7 +1,6 @@
 package org.openshift;
 
 import com.google.common.base.Preconditions;
-import org.openshift.MoreFunctions.TriFunction;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,9 +25,9 @@ public class InsultRepository {
             "order by random () " +
             "limit 1";
 
-    public String getInsult(final TriFunction<String, String> function, final String defaultValue) {
+    public String getInsult(final InsultMapper insultMapper, final String defaultValue) {
         try {
-            return getObject(GET_INSULT_SQL, rs -> function.apply(
+            return getObject(GET_INSULT_SQL, rs -> insultMapper.map(
                     rs.getString("first"),
                     rs.getString("second"),
                     rs.getString("noun")));
@@ -38,7 +37,7 @@ public class InsultRepository {
         }
     }
 
-    private <T> T getObject(final String sql, final RowMapper<T> rowMapper) throws SQLException {
+    private <T> T getObject(final String sql, final RowMapper<T> rowMapper) throws RuntimeException, SQLException {
         try (final Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
             Preconditions.checkNotNull(connection);
             try (final ResultSet rs = connection.createStatement().executeQuery(sql)) {
@@ -47,6 +46,11 @@ public class InsultRepository {
                 return rowMapper.map(rs);
             }
         }
+    }
+
+    @FunctionalInterface
+    public interface InsultMapper {
+        String map(String firstAdjective, String secondAdjective, String noun);
     }
 
     @FunctionalInterface

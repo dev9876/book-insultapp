@@ -1,11 +1,9 @@
 package org.openshift;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
-import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.toSet;
 
 public class InsultGenerator {
 
@@ -15,7 +13,7 @@ public class InsultGenerator {
         this.insultRepository = new InsultRepository();
     }
 
-    private static final Set<Character> VOWELS = Stream.of('A', 'E', 'I', 'O', 'U').collect(toSet());
+    private static final Set<Character> VOWELS = ImmutableSet.of('A', 'E', 'I', 'O', 'U');
     private static final String INSULT_TEMPLATE = "Thou art %s %s, %s %s!";
 
     public String generateInsult() {
