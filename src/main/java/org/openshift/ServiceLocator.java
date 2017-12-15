@@ -1,8 +1,8 @@
 package org.openshift;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.MutableClassToInstanceMap;
 
-import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 import static java.lang.String.format;
@@ -11,10 +11,11 @@ import static java.lang.System.getenv;
 public final class ServiceLocator {
 
     private static final ServiceLocator INSTANCE = new ServiceLocator();
-    private final ConcurrentMap<Class<?>, Object> beans;
+
+    private final ClassToInstanceMap beans;
 
     private ServiceLocator() {
-        this.beans = Maps.newConcurrentMap();
+        this.beans = MutableClassToInstanceMap.create();
     }
 
     public static ServiceLocator getInstance() {
@@ -22,8 +23,11 @@ public final class ServiceLocator {
     }
 
     @SuppressWarnings("unchecked")
-    private <T> T singleton(final Class<T> key, final Function<Class<T>, T> mappingFunction) {
-        return (T) beans.computeIfAbsent(key, (Function<? super Class<?>, ?>) mappingFunction);
+    private <T> T singleton(final Class<T> key, final Function<? super Class<T>, ? extends T> mappingFunction) {
+        //noinspection SynchronizationOnLocalVariableOrMethodParameter
+        synchronized (key) {
+            return (T) beans.computeIfAbsent(key, mappingFunction);
+        }
     }
 
     public InsultGenerator insultGenerator() {
