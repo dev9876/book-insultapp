@@ -15,7 +15,7 @@ public class InsultResource {
     private final InsultGenerator insultGenerator;
 
     public InsultResource() {
-        this.insultGenerator = new InsultGenerator();
+        this.insultGenerator = ServiceLocator.getInstance().insultGenerator();
     }
 
     @GET()
