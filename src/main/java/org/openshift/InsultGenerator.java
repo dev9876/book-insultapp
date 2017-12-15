@@ -1,6 +1,7 @@
 package org.openshift;
 
-import java.util.Objects;
+import com.google.common.base.Preconditions;
+
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -24,10 +25,8 @@ public class InsultGenerator {
     }
 
     private static String articleFor(final String adjective) {
-        Objects.requireNonNull(adjective);
-        return adjective.isEmpty()
-                ? "nothing but"
-                : VOWELS.contains(Character.toUpperCase(adjective.charAt(0))) ? "an" : "a";
+        Preconditions.checkArgument(adjective != null && !adjective.isEmpty());
+        return VOWELS.contains(Character.toUpperCase(adjective.charAt(0))) ? "an" : "a";
     }
 
 }

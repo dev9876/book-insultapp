@@ -1,5 +1,6 @@
 package org.openshift;
 
+import com.google.common.base.Preconditions;
 import org.openshift.MoreFunctions.TriFunction;
 
 import java.sql.Connection;
@@ -31,7 +32,7 @@ public class InsultRepository {
                     rs.getString("first"),
                     rs.getString("second"),
                     rs.getString("noun")));
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return defaultValue;
         }
@@ -39,20 +40,11 @@ public class InsultRepository {
 
     private <T> T getObject(final String sql, final RowMapper<T> rowMapper) throws SQLException {
         try (final Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
-            if (connection != null) {
-                try (final ResultSet rs = connection.createStatement().executeQuery(sql)) {
-                    if (rs.next()) {
-                        final T result = rowMapper.map(rs);
-                        if (rs.next()) {
-                            throw new SQLException("Too many results found");
-                        }
-                        return result;
-                    } else {
-                        throw new SQLException("No results found");
-                    }
-                }
-            } else {
-                throw new SQLException("Cannot connect to database");
+            Preconditions.checkNotNull(connection);
+            try (final ResultSet rs = connection.createStatement().executeQuery(sql)) {
+                Preconditions.checkState(rs.next());
+                Preconditions.checkState(rs.isLast());
+                return rowMapper.map(rs);
             }
         }
     }
