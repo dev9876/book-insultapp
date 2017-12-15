@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="insults@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.7">
+    <root id="1"/>
+    <database id="2" parent="1" name="insults">
+      <ObjectId>16385</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>12442</ObjectId>
+    </database>
+    <role id="4" parent="1" name="insult">
+      <ObjectId>16384</ObjectId>
+      <Inherit>1</Inherit>
+      <CanLogin>1</CanLogin>
+      <ConnectionLimit>-1</ConnectionLimit>
+    </role>
+    <role id="5" parent="1" name="postgres">
+      <ObjectId>10</ObjectId>
+      <SuperRole>1</SuperRole>
+      <Inherit>1</Inherit>
+      <CreateRole>1</CreateRole>
+      <CreateDb>1</CreateDb>
+      <CanLogin>1</CanLogin>
+      <Replication>1</Replication>
+      <ConnectionLimit>-1</ConnectionLimit>
+      <BypassRls>1</BypassRls>
+    </role>
+    <schema id="6" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-12-15.14:53:58.414</IntrospectionTimestamp>
+      <IntrospectionStateNumber>706</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="7" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="8" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="9" parent="2" name="pg_temp_1">
+      <ObjectId>11816</ObjectId>
+    </schema>
+    <schema id="10" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11817</ObjectId>
+    </schema>
+    <schema id="11" parent="2" name="information_schema">
+      <ObjectId>12150</ObjectId>
+    </schema>
+    <sequence id="12" parent="6" name="long_adjective_id_seq">
+      <ObjectId>16397</ObjectId>
+      <StateNumber>706</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+    </sequence>
+    <sequence id="13" parent="6" name="noun_id_seq">
+      <ObjectId>16408</ObjectId>
+      <StateNumber>706</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+    </sequence>
+    <sequence id="14" parent="6" name="short_adjective_id_seq">
+      <ObjectId>16386</ObjectId>
+      <StateNumber>706</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+      <CacheSize>1</CacheSize>
+    </sequence>
+    <table id="15" parent="6" name="long_adjective">
+      <ObjectId>16399</ObjectId>
+      <StateNumber>706</StateNumber>
+    </table>
+    <table id="16" parent="6" name="noun">
+      <ObjectId>16410</ObjectId>
+      <StateNumber>706</StateNumber>
+    </table>
+    <table id="17" parent="6" name="short_adjective">
+      <ObjectId>16388</ObjectId>
+      <StateNumber>706</StateNumber>
+    </table>
+    <column id="18" parent="15" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>706</StateNumber>
+      <DefaultExpression>nextval(&apos;long_adjective_id_seq&apos;::regclass)</DefaultExpression>
+      <SequenceName>long_adjective_id_seq</SequenceName>
+    </column>
+    <column id="19" parent="15" name="string">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>706</StateNumber>
+    </column>
+    <index id="20" parent="15" name="long_adjective_pkey">
+      <ObjectId>16406</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="21" parent="15" name="long_adjective_pkey">
+      <ObjectId>16407</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>long_adjective_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="22" parent="16" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>706</StateNumber>
+      <DefaultExpression>nextval(&apos;noun_id_seq&apos;::regclass)</DefaultExpression>
+      <SequenceName>noun_id_seq</SequenceName>
+    </column>
+    <column id="23" parent="16" name="string">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>706</StateNumber>
+    </column>
+    <index id="24" parent="16" name="noun_pkey">
+      <ObjectId>16417</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="25" parent="16" name="noun_pkey">
+      <ObjectId>16418</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>noun_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="26" parent="17" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>706</StateNumber>
+      <DefaultExpression>nextval(&apos;short_adjective_id_seq&apos;::regclass)</DefaultExpression>
+      <SequenceName>short_adjective_id_seq</SequenceName>
+    </column>
+    <column id="27" parent="17" name="string">
+      <Position>2</Position>
+      <DataType>varchar|0</DataType>
+      <StateNumber>706</StateNumber>
+    </column>
+    <index id="28" parent="17" name="short_adjective_pkey">
+      <ObjectId>16395</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="29" parent="17" name="short_adjective_pkey">
+      <ObjectId>16396</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>short_adjective_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

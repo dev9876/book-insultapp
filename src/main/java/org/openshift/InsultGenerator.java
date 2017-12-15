@@ -1,5 +1,6 @@
 package org.openshift;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -23,8 +24,10 @@ public class InsultGenerator {
     }
 
     private static String articleFor(final String adjective) {
-        assert adjective != null && !adjective.isEmpty();
-        return VOWELS.contains(Character.toUpperCase(adjective.charAt(0))) ? "an" : "a";
+        Objects.requireNonNull(adjective);
+        return adjective.isEmpty()
+                ? "nothing but"
+                : VOWELS.contains(Character.toUpperCase(adjective.charAt(0))) ? "an" : "a";
     }
 
 }

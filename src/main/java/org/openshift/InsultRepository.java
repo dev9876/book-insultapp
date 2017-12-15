@@ -15,8 +15,7 @@ public class InsultRepository {
     private static final String USERNAME = System.getenv("POSTGRESQL_USER");
     private static final String PASSWORD = System.getenv("PGPASSWORD");
 
-    @SuppressWarnings({"SqlNoDataSourceInspection", "SqlResolve"})
-    private static final String SQL = "select " +
+    private static final String GET_INSULT_SQL = "select " +
             "a.string as first, " +
             "b.string as second, " +
             "c.string as noun " +
@@ -27,34 +26,39 @@ public class InsultRepository {
             "limit 1";
 
     public String getInsult(final TriFunction<String, String> function, final String defaultValue) {
-        String result = defaultValue;
-        Connection connection = null;
-        ResultSet rs = null;
         try {
-            if ((connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) != null) {
-                rs = connection.createStatement().executeQuery(SQL);
-                if (rs.next()) {
-                    result = function.apply(
-                            rs.getString("first"),
-                            rs.getString("second"),
-                            rs.getString("noun"));
-                }
-            }
-            return result;
-        } catch (Exception e) {
+            return getObject(GET_INSULT_SQL, rs -> function.apply(
+                    rs.getString("first"),
+                    rs.getString("second"),
+                    rs.getString("noun")));
+        } catch (SQLException e) {
             e.printStackTrace();
             return defaultValue;
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
+        }
+    }
+
+    private <T> T getObject(final String sql, final RowMapper<T> rowMapper) throws SQLException {
+        try (final Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD)) {
+            if (connection != null) {
+                try (final ResultSet rs = connection.createStatement().executeQuery(sql)) {
+                    if (rs.next()) {
+                        final T result = rowMapper.map(rs);
+                        if (rs.next()) {
+                            throw new SQLException("Too many results found");
+                        }
+                        return result;
+                    } else {
+                        throw new SQLException("No results found");
+                    }
                 }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException ignored) {
+            } else {
+                throw new SQLException("Cannot connect to database");
             }
         }
     }
 
+    @FunctionalInterface
+    private interface RowMapper<T> {
+        T map(ResultSet rs) throws SQLException;
+    }
 }
