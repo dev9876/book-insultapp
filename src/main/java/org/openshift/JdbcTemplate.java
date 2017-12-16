@@ -7,13 +7,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class RepositoryTemplate {
+public class JdbcTemplate {
 
     private final String databaseUrl;
     private final String username;
     private final String password;
 
-    RepositoryTemplate(final String databaseUrl, final String username, final String password) {
+    JdbcTemplate(final String databaseUrl, final String username, final String password) {
         this.databaseUrl = databaseUrl;
         this.username = username;
         this.password = password;

@@ -8,7 +8,7 @@
 </head>
 <body>
 <%
-    out.println(ServiceLocator.getInstance().insultGenerator().generateInsult());
+    out.println(ServiceLocator.getInstance().insultService().generateInsult());
 %>
 
 </body>

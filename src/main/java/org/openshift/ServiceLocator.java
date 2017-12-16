@@ -30,16 +30,16 @@ public final class ServiceLocator {
         }
     }
 
-    public InsultGenerator insultGenerator() {
-        return singleton(InsultGenerator.class, k -> new InsultGenerator(insultRepository()));
+    public InsultService insultService() {
+        return singleton(InsultService.class, k -> new InsultService(insultRepository()));
     }
 
     private InsultRepository insultRepository() {
-        return singleton(InsultRepository.class, k -> new InsultRepository(repositoryTemplate()));
+        return singleton(InsultRepository.class, k -> new InsultRepository(jdbcTemplate()));
     }
 
-    private RepositoryTemplate repositoryTemplate() {
-        return singleton(RepositoryTemplate.class, k -> new RepositoryTemplate(
+    private JdbcTemplate jdbcTemplate() {
+        return singleton(JdbcTemplate.class, k -> new JdbcTemplate(
                 format("jdbc:postgresql://%s/%s", getenv("POSTGRESQL_SERVICE_HOST"), getenv("POSTGRESQL_DATABASE")),
                 getenv("POSTGRESQL_USER"),
                 getenv("PGPASSWORD")));

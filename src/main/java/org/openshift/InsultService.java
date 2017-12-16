@@ -5,15 +5,17 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+import static java.lang.Character.toUpperCase;
 import static java.lang.String.format;
 
-public class InsultGenerator {
+public class InsultService {
 
     private static final Set<Character> VOWELS = ImmutableSet.of('A', 'E', 'I', 'O', 'U');
     private static final String INSULT_TEMPLATE = "Thou art %s %s, %s %s!";
     private final InsultRepository insultRepository;
 
-    InsultGenerator(final InsultRepository insultRepository) {
+    InsultService(final InsultRepository insultRepository) {
         this.insultRepository = insultRepository;
     }
 
@@ -24,8 +26,8 @@ public class InsultGenerator {
     }
 
     private static String articleFor(final String adjective) {
-        Preconditions.checkArgument(adjective != null && !adjective.isEmpty());
-        final boolean startsWithVowel = VOWELS.contains(Character.toUpperCase(adjective.charAt(0)));
+        Preconditions.checkArgument(!isNullOrEmpty(adjective));
+        final boolean startsWithVowel = VOWELS.contains(toUpperCase(adjective.charAt(0)));
         return startsWithVowel ? "an" : "a";
     }
 
